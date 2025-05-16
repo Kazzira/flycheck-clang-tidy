@@ -25,8 +25,13 @@
 (require 'flycheck)
 (require 'dom)
 
+(defvar flycheck-clang-tidy-executable
+  "clang-tidy"
+  "The clang tidy executable filename.")
+
 ;; To keep variable names consistent.
 (defvaralias 'flycheck-clang-tidy-executable 'flycheck-c/c++-clang-tidy-executable)
+
 
 (flycheck-def-config-file-var flycheck-clang-tidy c/c++-clang-tidy ".clang-tidy"
   :type 'string
@@ -166,7 +171,7 @@ Information comes from the clang.llvm.org website."
   "A C/C++ syntax checker using clang-tidy.
 
 See URL `https://github.com/ch1bo/flycheck-clang-tidy'."
-  :command ("clang-tidy"
+  :command (flycheck-clang-tidy-executable
             (option "-p" flycheck-clang-tidy-build-path)
             (eval (concat "-extra-arg=-I" (flycheck-clang-tidy-current-source-dir)))
             (eval (concat "-config=" (flycheck-clang-tidy-get-config)))
